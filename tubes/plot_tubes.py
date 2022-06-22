@@ -27,7 +27,7 @@ def plot_tubes(paths, tubes, wait=200, save_folder=None):
     else:
         colors.append((0,255,0)) #default green
     for index in range(len(paths)):
-        print(index)
+        # print(index)
         frame = np.array(imread(paths[index]))
         frame_name = Path(paths[index]).name
 
@@ -59,7 +59,8 @@ def plot_tubes(paths, tubes, wait=200, save_folder=None):
             frame = draw_boxes(frame,
                                 box_tubes[:, :4],
                                 # scores=tube_scores,
-                                ids=tube_scores,
+                                # ids=tube_scores,
+                                ids=tube_ids,
                                 line_thick=2, 
                                 line_color=colors)
         images_to_video.append({
@@ -78,7 +79,7 @@ def plot_tubes(paths, tubes, wait=200, save_folder=None):
         # cv2.imshow('FRAME'+frame_name, frame)
         cv2.imshow('FRAME', frame)
         # key = cv2.waitKey(wait)
-        key = cv2.waitKey(10)
+        key = cv2.waitKey(50)
         if key == 27:#if ESC is pressed, exit loop
             cv2.destroyAllWindows()
         

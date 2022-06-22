@@ -517,6 +517,7 @@ class IncrementalLinking:
         
         
         if plot:
+            print('Hereeee: ', plot)
             self.plot_tubes(frames_indices, None, live_paths, self.config['plot_config']['plot_wait_tubes'], gt, self.config['plot_config']['save_folder_final'])
         return live_paths
 

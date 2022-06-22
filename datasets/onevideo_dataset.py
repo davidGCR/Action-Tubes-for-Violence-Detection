@@ -8,7 +8,7 @@ from tubes.plot_tubes import plot_tubes
 from tubes.run_tube_gen import extract_tubes_from_video
 from utils.dataset_utils import imread
 from utils.global_var import *
-from utils.tube_utils import JSON_2_tube, JSON_2_videoDetections
+from utils.tube_utils import JSON_2_tube, JSON_2_videoDetections, tube_2_JSON
 from utils.utils import  natural_sort
 import cv2
 
@@ -131,27 +131,38 @@ class VideoDemo(data.Dataset):
         tp = [tubes[i] for i in indices_to_plot]
         
         plot_tubes(names, tp, save_folder=self.save_folder)
-        
-    def gen_tubes(self):
+    
+    def plot_gen_tubes(self):
         tubes = None
         if self.tub_file:
             print('Loading tubes from: ', self.tub_file)
             tubes = JSON_2_tube(str(self.tub_file))
             indices, names = self.temporal_step()
-            if self.vizualize_tubes:
-                plot_tubes(names, tubes, save_folder=self.save_folder)
+            plot_tubes(names, tubes, save_folder=None)
+                    
+    def gen_tubes(self):
+        tubes = None
+        # if self.tub_file:
+        #     print('Loading tubes from: ', self.tub_file)
+        #     tubes = JSON_2_tube(str(self.tub_file))
+        #     indices, names = self.temporal_step()
+        #     if self.vizualize_tubes:
+        #         plot_tubes(names, tubes, save_folder=None)
                 
+        # else:
+        print('Extracting tubes...')
+        if self.ped_file:
+            person_detections = JSON_2_videoDetections(str(self.ped_file))
+            self.tub_cfg['person_detections'] = person_detections
+            indices, names = self.temporal_step()
+            tubes, time = extract_tubes_from_video(indices, names, self.mot_cgf, self.tub_cfg, None)
+            if self.save_folder:
+                tube_2_JSON(self.save_folder, tubes)
+                
+            # if self.vizualize_tubes:
+            #     plot_tubes(names, tubes, save_folder=None)
         else:
-            print('Extracting tubes...')
-            if self.ped_file:
-                person_detections = JSON_2_videoDetections(str(self.ped_file))
-                self.tub_cfg['person_detections'] = person_detections
-                indices, names = self.temporal_step()
-                tubes, time = extract_tubes_from_video(indices, names, self.mot_cgf, self.tub_cfg, None)
-                # if self.vizualize_tubes:
-                #     plot_tubes(names, tubes, save_folder=None)
-            else:
-                print('ERROR: No persons detections file!!!')
+            print('ERROR: No persons detections file!!!')
         
         return tubes
 

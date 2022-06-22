@@ -212,19 +212,6 @@ def demo(args):
     # model, _, _, _, _ = load_checkpoint(model, _device, None, cfg.MODEL.INFERENCE.CHECKPOINT_PATH)
     # model.eval()
         
-    # def iterate(category, set_, video):
-        # vd = VideoDemo(
-        #     cfg=cfg.TUBE_DATASET,
-        #     path=r"C:\Users\David\Desktop\DATASETS\RWF-2000\frames\{}\{}\{}".format(set_, category, video),
-        #     # tub_file=r"C:\Users\David\Desktop\DATASETS\ActionTubesV2Scored\RWF-2000\{}\{}\{}.json".format(set_, category, video),
-        #     tub_cfg=TUBE_BUILD_CONFIG,
-        #     mot_cgf=MOTION_SEGMENTATION_CONFIG,
-        #     ped_file=r"C:\Users\David\Desktop\DATASETS\PersonDetections\RWF-2000\{}\{}\{}.json".format(set_, category, video),
-        #     vizualize_tubes=True,
-        #     save_folder=r"C:\Users\David\Desktop\DATASETS\Vizualizations",
-        #     # vizualize_keyframe=True,
-        #     transformations=transforms_config_val
-        # )
     vd = VideoDemo(
         cfg=cfg.TUBE_DATASET,
         path=args.video_folder,
@@ -232,69 +219,16 @@ def demo(args):
         tub_cfg=TUBE_BUILD_CONFIG,
         mot_cgf=MOTION_SEGMENTATION_CONFIG,
         ped_file=args.pd_file,
-        vizualize_tubes=True,
-        save_folder=args.save_folder,
+        vizualize_tubes=False,
+        save_folder=args.out_file,
         # vizualize_keyframe=True,
         transformations=transforms_config_val
     )
-    loader = DataLoader(vd,
-                        batch_size=1,
-                        # shuffle=False,
-                        num_workers=1,
-                        # pin_memory=True,
-                        collate_fn=my_collate_video,
-                        # sampler=get_sampler(train_dataset.labels),
-                        drop_last=False
-                        )
-    # tube_scores = []
-    # for batch_idx, (box, tube_images, keyframe) in enumerate(loader):
-    #     print("\nbatch: ", batch_idx)
+    
+    if args.plot:
+        vd.tub_file = args.out_file
+        vd.plot_gen_tubes()
         
-    #     print("box: ", box.size(), '\n', box)
-    #     print("tube_images: ", tube_images.size())
-    #     print("keyframe: ", keyframe.size())
-        
-    #     box, tube_images = box.to(_device), tube_images.to(_device)
-    #     keyframe = keyframe.to(_device)
-    #     with torch.no_grad():
-    #         outputs = model(tube_images, keyframe, box, cfg.TUBE_DATASET.NUM_TUBES)
-    #         outputs = outputs.unsqueeze(dim=0) #tensor([[0.0735, 0.1003]]) torch.Size([b, 2])
-    #         print('outputs: ', outputs)
-    #         max_scores, predicted = torch.max(outputs, 1)
-    #         print('max_scores: ', max_scores)
-    #         print('predicted: ', predicted)
-            
-    #         probs = torch.sigmoid(outputs)
-    #         print("probs: ", probs, probs.size())
-            
-    #         sm = torch.nn.Softmax(dim=1)
-    #         probabilities = sm(outputs)
-    #         print("probs softmax: ", probabilities, probabilities.size())
-            
-    #         tube_scores.append(probabilities)
-    
-    # tube_scores = torch.cat(tube_scores, dim=0)
-    # print("tube_scores: ", tube_scores, tube_scores.size())
-    
-    # if len(vd) >= 1 or len(vd) <= 3:
-    #     t_max_scores, indices = torch.max(tube_scores, 0)
-    #     indice_max_tube = indices.cpu().numpy().tolist()[1]
-    #     vd.plot_best_tube([indice_max_tube])
-    # elif len(vd) > 3:
-    #     t_max_scores, indices = torch.topk(tube_scores, 3, dim=0)
-    #     print('t_max_scores: ', t_max_scores)
-    #     print('indices: ', indices)
-    #     indice_max_tube = indices[:,1].cpu().numpy().tolist()
-    #     print('indice_max_tube: ', indice_max_tube)
-    #     vd.plot_best_tube(indice_max_tube)
-    # "C:/Users/David/Desktop/DATASETS/RWF-2000/frames/val/NonFight/2lrARl7utL4_0"
-    # "C:/Users/David/Desktop/DATASETS/PersonDetections/RWF-2000/val/NonFight/2lrARl7utL4_0.json"
-    
-    # set_ = 'val'
-    # category = 'NonFight'
-    # videos = ['2lrARl7utL4_0']
-    # for video in videos:
-    #     iterate(category, set_, video)
 
 import argparse
 
@@ -306,7 +240,8 @@ if __name__=='__main__':
     # Add an argument
     parser.add_argument('--video_folder', type=str, required=True)
     parser.add_argument('--pd_file', type=str, required=True)
-    parser.add_argument('--save_folder', type=str, default=None)
+    parser.add_argument('--out_file', type=str, required=True)
+    parser.add_argument('--plot', type=bool, default=False)
     # Parse the argument
     args = parser.parse_args()
     demo(args)
