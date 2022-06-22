@@ -1,0 +1,84 @@
+# HOME_UBUNTU: "/media/david/datos/Violence DATA/"
+# HOME_DRIVE: "/content/drive/My Drive/VIOLENCE DATA"
+# HOME_COLAB: "/content/DATASETS"
+# HOME_OSX: "/Users/davidchoqueluqueroman/Documents/DATASETS_Local"
+
+# ENVIROMENT: 
+#   DATASETS_ROOT: /Users/davidchoqueluqueroman/Documents/DATASETS_Local
+
+# '/Users/davidchoqueluqueroman/Documents/CODIGOS_SOURCES/pytorch-i3d/models/rgb_imagenet.pt'
+# '/media/david/datos/Violence DATA/VioNet_weights/pytorch_i3d/rgb_imagenet.pt
+#'/content/drive/My Drive/VIOLENCE DATA/Pretrained_Models/pytorch_i3d/rgb_imagenet.pt'
+# '/content/DATASETS/Pretrained_Models/rgb_imagenet.pt'
+
+MODEL:
+  NAME: TWO_STREAM_CFAM_CONFIG
+  RESTORE_TRAIN: True
+  CHECKPOINT_PATH: /media/david/datos/Violence DATA/VioNet_pth/TWO_STREAM_CFAM_CONFIG-binary-3dRoi-True-2dRoi-True_CCTVFights_CV(1)_usingGT(False)_numTubes(3)_framesXtube(16)_framesStrat(0)_boxStrat(1)_keyframeInput(3)_loss(CEL)_opt(SGD)_lr(1e-05)_epochs(100)/save_at_epoch-27.chk
+  _HEAD: 
+    NAME: binary
+  _3D_BRANCH: 
+    ACTIVATE: True
+    NAME: i3d #i3d, 3dresnet
+    FINAL_ENDPOINT: Mixed_4e #'Mixed_5b', #Mixed_4e, so far, only for i3d
+    PRETRAINED_MODEL: /media/david/datos/Violence DATA/VioNet_weights/pytorch_i3d/rgb_imagenet.pt
+    FREEZE_3D: False
+    WITH_ROIPOOL: True
+  _ROI_LAYER:
+    OUTPUT: 8
+    WITH_TEMPORAL_POOL: True
+    SPATIAL_SCALE: 16
+    WITH_SPATIAL_POOL: False
+    TYPE: RoIAlign
+  _2D_BRANCH:
+    ACTIVATE: True
+    NAME: resnet50
+    FINAL_ENDPOINT: layer3
+    NUM_TRAINABLE_LAYERS: 3
+    WITH_ROIPOOL: True
+  _CFAM_BLOCK:
+    ACTIVATE: True
+    IN_CHANNELS: 1552 #528+1024 #528+1024,#528+1024, #832+2048
+    OUT_CHANNELS: 512
+  # _FC:
+  #   INPUT_DIM: 32768 #8*8*512,#512#7105#145,#9280
+  
+
+DATA:
+  DATASET: CCTVFights
+  CV_SPLIT: 1
+  LOAD_GROUND_TRUTH: False
+DATALOADER:
+  TRAIN_BATCH: 4
+  VAL_BATCH: 4
+  NUM_WORKERS: 0
+  DROP_LAST: True
+
+TUBE_DATASET:
+  TUBE_FOLDER: /media/david/datos/Violence DATA/ActionTubesV2/CCTVFights64frames #/media/david/datos/Violence DATA/ActionTubesV2/CCTVFights32frames
+  USE_TUBES: True
+  NUM_FRAMES: 16
+  NUM_TUBES: 3
+  RANDOM: True
+  SEQ_LEN: 64 #32
+  STRIDE: 1
+  RANDOM_INSTANCE_CLIP: False
+  TUBE_TRAIN_SET: True
+  FRAMES_STRATEGY: 0
+  BOX_STRATEGY: 1 #0:middle, 1: union, 2: all
+  KEYFRAME_STRATEGY: 3 #0: rgb middle frame , 3:dynamic_images
+  KEYFRAME_CROP: False
+  SHAPE: [224,224]
+  MAKE_FN: None
+  DATALOADERS_DICT: False
+  BOX_AS_TENSOR: False
+
+SOLVER:
+  CRITERION: CEL
+  LR: 0.001
+  OPTIMIZER: 
+    NAME: SGD
+    FACTOR: 0.1
+    MIN_LR: 0.00001
+  EPOCHS: 100
+  SAVE_EVERY: 100

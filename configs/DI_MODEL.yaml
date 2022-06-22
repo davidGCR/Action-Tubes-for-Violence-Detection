@@ -1,0 +1,48 @@
+# HOME_UBUNTU: "/media/david/datos/Violence DATA/"
+# HOME_DRIVE: "/content/drive/My Drive/VIOLENCE DATA"
+# HOME_COLAB: "/content/DATASETS"
+# HOME_OSX: "/Users/davidchoqueluqueroman/Documents/DATASETS_Local"
+
+# ENVIROMENT: 
+#   DATASETS_ROOT: /Users/davidchoqueluqueroman/Documents/DATASETS_Local
+
+# '/Users/davidchoqueluqueroman/Documents/CODIGOS_SOURCES/pytorch-i3d/models/rgb_imagenet.pt'
+# '/media/david/datos/Violence DATA/VioNet_weights/pytorch_i3d/rgb_imagenet.pt
+#'/content/drive/My Drive/VIOLENCE DATA/Pretrained_Models/pytorch_i3d/rgb_imagenet.pt'
+# '/content/DATASETS/Pretrained_Models/rgb_imagenet.pt'
+MODEL:
+  NAME: RESNET50
+  INFERENCE:
+    ACTIVE: False
+    REPETITIONS: 1
+    CHECKPOINT_PATH: None
+  RESTORE_TRAIN:
+    ACTIVE: False
+    CHECKPOINT_PATH: None
+  TRANSF_LEARNING:
+    ACTIVE: False
+    CHECKPOINT_PATH: None
+
+DYNAMIC_IMAGE_DATASET:
+  NUM_CLIPS: 1
+  CLIP_LEN: 16
+  CLIP_STRIDE: 2
+DATA:
+  DATASET: HockeyFightsDATASET
+  CV_SPLIT: 1
+  LOAD_GROUND_TRUTH: False
+DATALOADER:
+  TRAIN_BATCH: 4
+  VAL_BATCH: 4
+  NUM_WORKERS: 4
+  DROP_LAST: True
+
+SOLVER:
+  CRITERION: CEL
+  LR: 0.0001
+  OPTIMIZER: 
+    NAME: SGD
+    FACTOR: 0.1
+    MIN_LR: 0.0000001
+  EPOCHS: 100
+  SAVE_EVERY: 1

@@ -1,0 +1,82 @@
+# HOME_UBUNTU: "/media/david/datos/Violence DATA/"
+# HOME_DRIVE: "/content/drive/My Drive/VIOLENCE DATA"
+# HOME_COLAB: "/content/DATASETS"
+# HOME_OSX: "/Users/davidchoqueluqueroman/Documents/DATASETS_Local"
+
+# ENVIROMENT: 
+#   DATASETS_ROOT: /Users/davidchoqueluqueroman/Documents/DATASETS_Local
+
+# '/Users/davidchoqueluqueroman/Documents/CODIGOS_SOURCES/pytorch-i3d/models/rgb_imagenet.pt'
+# '/media/david/datos/Violence DATA/VioNet_weights/pytorch_i3d/rgb_imagenet.pt
+#'/content/drive/My Drive/VIOLENCE DATA/Pretrained_Models/pytorch_i3d/rgb_imagenet.pt'
+# '/content/DATASETS/Pretrained_Models/rgb_imagenet.pt'
+
+MODEL:
+  NAME: ONE_STREAM_CONFIG
+  INFERENCE:
+    ACTIVE: False
+    REPETITIONS: 1
+    CHECKPOINT_PATH: None
+  RESTORE_TRAIN:
+    ACTIVE: False
+    CHECKPOINT_PATH: None
+  TRANSF_LEARNING:
+    ACTIVE: False
+    CHECKPOINT_PATH: None
+  _3D_BRANCH:
+    ACTIVATE: True
+    NAME: i3d #i3d, 3dresnet
+    FINAL_ENDPOINT: Mixed_4e #'Mixed_5b', #Mixed_4e, so far, only for i3d
+    PRETRAINED_MODEL: C:/Users/David/Desktop/DATASETS/Pretrained_Models/rgb_imagenet.pt
+    FREEZE_3D: False
+    WITH_ROIPOOL: True
+  _ROI_LAYER:
+    OUTPUT: 8
+    WITH_TEMPORAL_POOL: True
+    SPATIAL_SCALE: 16
+    WITH_SPATIAL_POOL: False
+    TYPE: RoIAlign
+  _2D_BRANCH:
+    ACTIVATE: False
+    WITH_ROIPOOL: False
+  _CFAM_BLOCK:
+    ACTIVATE: False
+  _HEAD: 
+    NAME: binary
+    INPUT_DIM: 96 #i3d:528, 13dv2: 1024, x3d: 96
+  
+
+DATA:
+  DATASET: RWF-2000
+  CV_SPLIT: 1
+  LOAD_GROUND_TRUTH: False
+  ACTION_TUBES_FOLDER: ActionTubesV2Scored
+DATALOADER:
+  TRAIN_BATCH: 4
+  VAL_BATCH: 4
+  NUM_WORKERS: 4
+  DROP_LAST: True
+
+TUBE_DATASET:
+  USE_TUBES: True
+  NUM_FRAMES: 16
+  NUM_TUBES: 3
+  RANDOM: False
+  FRAMES_STRATEGY: 0
+  BOX_STRATEGY: 1 #0:middle, 1: union, 2: all
+  KEYFRAME_STRATEGY: 3 #0: rgb middle frame , 3:dynamic_images
+  KEYFRAME_CROP: False
+  SHAPE: [224,224]
+  MAKE_FN: None
+  DATALOADERS_DICT: False
+  BOX_AS_TENSOR: False
+
+SOLVER:
+  CRITERION: CEL
+  LR: 0.00001
+  OPTIMIZER: 
+    NAME: SGD
+    FACTOR: 0.1
+    MIN_LR: 0.0000001
+  EPOCHS: 100
+  SAVE_EVERY: 1
