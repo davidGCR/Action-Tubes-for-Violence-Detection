@@ -4,7 +4,7 @@ Generacion de Action Tubes para deteccion espacio-temporal de acciones violentas
 
 ## Descripcion
 
- Un action tube es un conjunto de detecciones espaciales que delimitan espacial y temporalmente una accion humana como correr, pelear, etc. El presente repositorio genera action tubes a partir de detecciones espaciales usando imagenes dinamicas y un algoritmo de tracking capaz de construir multiples action tubes en paralelo. Los tubes generados pueden ser usados como propuestas para localizar acciones violentas en video.
+ Un action tube es un conjunto de detecciones espaciales que delimitan espacial y temporalmente una accion humana como correr, pelear, etc. El presente repositorio genera action tubes a partir de detecciones espaciales usando imagenes dinamicas y un algoritmo de tracking capaz de construir multiples action tubes en paralelo. Los tubes generados pueden ser usados como propuestas para localizar acciones violentas en video. Más detalle sobre el método vea [[1]](#1).
 
 
 ## Empezando
@@ -42,7 +42,7 @@ pip install -r requirements.txt
 
 * La base de datos esta compuesta de videos conteniendo acciones violentas y no violentas preprocesados como folders de imagenes/fotogramas.  
 
-* Sin embargo, puede usar cualquier otro video para la extraccion de action tubes. Solo asegurese de preprocesar el video como un folder de frames.
+* Puede usar cualquier otro video para la extraccion de action tubes. Solo asegurese de preprocesar el video como un folder de frames.
 
 ### 2. Detección de Personas
 * Para generar los action tubes es necesario extraer las regiones espaciales de personas en el video. Puede generarlas por su cuenta usando modelos como MaskRCNN, FastRCNN, etc. 
@@ -53,10 +53,12 @@ pip install -r requirements.txt
 Teniendo los videos y las detecciones descargadas, ejecute el siguiente comando para generar los action tubes.
 
 ```
-python .\tools\demo.py --video_folder path/to/video/folder --pd_file path/to/person/detections/file.json
+python .\tools\demo.py --video_folder path/to/video/folder --pd_file path/to/person/detections/file.json --out_file results/tubes.json --plot True
 ```
-*  path/to/video/folder: Path a folder conteniendo los fotogramas
-* path/to/person/detections/file.json: Ruta de archivo JSON con las detecciones.
+*  --video_folder: Path a folder conteniendo los fotogramas
+* --pd_file: Ruta de archivo JSON con las detecciones.
+* --out_file: Ruta de archivo JSON para guardar los tubes generados.
+* --plot: Flac para vizualizar los tubes. Puede ser True o False.
 
 
 ## Referencias
