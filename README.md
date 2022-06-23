@@ -10,6 +10,9 @@ Generacion de Action Tubes para deteccion espacio-temporal de acciones violentas
 ![6Rl7q_kXYbg_2](https://user-images.githubusercontent.com/18419040/175229585-9e2a6b68-3514-4096-842c-f291117462f9.gif)
 ![83d-16REC40_0](https://user-images.githubusercontent.com/18419040/175229977-e0098226-d509-4d75-ba25-ebe5630769b4.gif)
 ![EFv961C5RgY_0](https://user-images.githubusercontent.com/18419040/175231117-9c94e826-4ec4-4f09-8408-f0222ad0511e.gif)
+![FXC43fACfPc_0](https://user-images.githubusercontent.com/18419040/175234530-2c1dd970-416a-4e97-bd85-ca4dff620693.gif)
+![qaAclucigpY_3](https://user-images.githubusercontent.com/18419040/175236943-f791b7a5-03c9-47bb-87b3-458f0c870144.gif)
+
 
 ## Empezando
 
