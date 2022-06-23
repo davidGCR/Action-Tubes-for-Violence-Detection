@@ -220,7 +220,8 @@ def demo(args):
         mot_cgf=MOTION_SEGMENTATION_CONFIG,
         ped_file=args.pd_file,
         vizualize_tubes=False,
-        save_folder=args.out_file,
+        out_file=args.out_file,
+        save_folder=args.save_folder,
         # vizualize_keyframe=True,
         transformations=transforms_config_val
     )
@@ -241,6 +242,7 @@ if __name__=='__main__':
     parser.add_argument('--video_folder', type=str, required=True)
     parser.add_argument('--pd_file', type=str, required=True)
     parser.add_argument('--out_file', type=str, required=True)
+    parser.add_argument('--save_folder', type=str, default=None)
     parser.add_argument('--plot', type=bool, default=False)
     # Parse the argument
     args = parser.parse_args()

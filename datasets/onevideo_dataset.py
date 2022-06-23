@@ -22,6 +22,7 @@ class VideoDemo(data.Dataset):
                  ped_file=None, 
                  vizualize_tubes:bool=False,
                  save_folder=None,
+                 out_file=None,
                  vizualize_keyframe:bool=False,
                  transformations=None):
         """Dataset to load/extract tubes from a single video
@@ -38,6 +39,7 @@ class VideoDemo(data.Dataset):
             transformations (dict, optional): Spatial transformations for two stream model. Defaults to False.
         """
         self.save_folder = save_folder
+        self.out_file = out_file
         self.cfg = cfg
         self.path = Path(path)
         self.check_file(self.path)
@@ -138,7 +140,7 @@ class VideoDemo(data.Dataset):
             print('Loading tubes from: ', self.tub_file)
             tubes = JSON_2_tube(str(self.tub_file))
             indices, names = self.temporal_step()
-            plot_tubes(names, tubes, save_folder=None)
+            plot_tubes(names, tubes, save_folder=self.save_folder)
                     
     def gen_tubes(self):
         tubes = None
@@ -156,8 +158,8 @@ class VideoDemo(data.Dataset):
             self.tub_cfg['person_detections'] = person_detections
             indices, names = self.temporal_step()
             tubes, time = extract_tubes_from_video(indices, names, self.mot_cgf, self.tub_cfg, None)
-            if self.save_folder:
-                tube_2_JSON(self.save_folder, tubes)
+            if self.out_file:
+                tube_2_JSON(self.out_file, tubes)
                 
             # if self.vizualize_tubes:
             #     plot_tubes(names, tubes, save_folder=None)

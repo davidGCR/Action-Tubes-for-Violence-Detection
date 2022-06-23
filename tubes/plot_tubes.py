@@ -3,10 +3,8 @@ import numpy as np
 from utils.visual_utils import draw_boxes, imread, color
 import cv2
 from pathlib import Path
-
 def plot_tubes(paths, tubes, wait=200, save_folder=None):
     """Plot action tubes
-
     Args:
         paths (list): List of image paths
         tubes (list): List of action tubes
@@ -94,3 +92,39 @@ def plot_tubes(paths, tubes, wait=200, save_folder=None):
             filename = folder/img_data['name']
             # print("frame to save: ",filename)
             cv2.imwrite(str(filename), img_data['image'])
+        
+        # print("Saving GIF file")
+        # with imageio.get_writer(folder/"mygift.gif", mode="I") as writer:
+        #     for i in range(0,len(images_to_video),20):
+        #     # for idx, img_data in enumerate(images_to_video[20:30]):
+        #         print("Adding frame to GIF file: ", idx + 1)
+        #         # writer.append_data(img_data['image'])
+        #         rgb_frame = cv2.cvtColor(images_to_video[i]['image'], cv2.COLOR_BGR2RGB)
+        #         writer.append_data(rgb_frame)
+        # import glob
+        # from PIL import Image
+        # imgs = [Image.open(f) for f in sorted(glob.glob(str(filename)))]
+        # img = imgs[0]
+        # img.save(fp=folder/"mygift.gif", format='GIF', append_images=imgs[1:], save_all=True, loop=0)
+        
+        # video = cv2.VideoWriter(str(folder/"test.avi"), cv2.VideoWriter_fourcc(*'XVID'), 24, (1200,800))
+        # for image in images_to_video:
+        #     video.write(image['image'])   
+        
+        # print('save_folder: ', save_folder)
+        
+        # img_array = []
+        # size=None
+        # for filename in glob.glob(save_folder+'/*.jpg'):
+        #     img = cv2.imread(filename)
+        #     height, width, layers = img.shape
+        #     size = (width,height)
+        #     img_array.append(img)
+
+        # print('str(folder/"test.avi"): ', str(folder/"test.avi"))
+
+        # out = cv2.VideoWriter(save_folder+"/test.mp4",cv2.VideoWriter_fourcc(*'DIVX'), 15, size)
+        
+        # for i in range(len(img_array)):
+        #     out.write(img_array[i])
+        # out.release()
