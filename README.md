@@ -59,10 +59,11 @@ Teniendo los videos y las detecciones descargadas, ejecute el siguiente comando 
 ```
 python .\tools\demo.py --video_folder path/to/video/folder --pd_file path/to/person/detections/file.json --out_file results/tubes.json --plot True
 ```
-*  --video_folder: Path a folder conteniendo los fotogramas
-* --pd_file: Ruta de archivo JSON con las detecciones.
-* --out_file: Ruta de archivo JSON para guardar los tubes generados.
-* --plot: Flac para vizualizar los tubes. Puede ser True o False.
+*  --video_folder: Path a folder conteniendo los fotogramas. (Obligatorio)
+* --pd_file: Ruta de archivo JSON con las detecciones. (Obligatorio)
+* --out_file: Ruta de archivo JSON para guardar los tubes generados. (Obligatorio)
+* --save_folder: Ruta de folder para guardar fotogramas con action tubes. Default: None
+* --plot: Flac para vizualizar los tubes. Puede ser True o False. Default False.
 
 
 ## Referencias
