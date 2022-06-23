@@ -6,6 +6,7 @@ Generacion de Action Tubes para deteccion espacio-temporal de acciones violentas
 
  Un action tube es un conjunto de detecciones espaciales que delimitan espacial y temporalmente una accion humana como correr, pelear, etc. El presente repositorio genera action tubes a partir de detecciones espaciales usando imagenes dinamicas y un algoritmo de tracking capaz de construir multiples action tubes en paralelo. Los tubes generados pueden ser usados como propuestas para localizar acciones violentas en video. Más detalle sobre el método vea [[1]](#1).
 
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/18419040/175225224-bd26c212-ca10-4dc8-a076-71362fefa8d4.gif)
 
 ## Empezando
 
