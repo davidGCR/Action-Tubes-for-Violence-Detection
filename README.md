@@ -60,7 +60,7 @@ pip install -r requirements.txt
 Teniendo los videos y las detecciones descargadas, ejecute el siguiente comando para generar los action tubes.
 
 ```
-python .\tools\demo.py --video_folder path/to/video/folder --pd_file path/to/person/detections/file.json --out_file results/tubes.json --plot True
+python .\tools\demo.py --video_folder path/to/video/folder --pd_file path/to/person/detections/file.json --out_file results/tubes.json --save_folder to/save/folder --plot True
 ```
 *  --video_folder: Path a folder conteniendo los fotogramas. (Obligatorio)
 * --pd_file: Ruta de archivo JSON con las detecciones. (Obligatorio)
